@@ -1,0 +1,53 @@
+{
+  "name": "6-9",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node ./src/index.js",
+    "build": "cross-env NODE_ENV=prod webpack --config config/webpack.config.prod.js",
+    "node": "cross-env NODE_ENV=dev nodemon --exec babel-node --inspect=9230 ./src/index.js",
+    "watch": "cross-env NODE_ENV=dev webpack --watch --progress --config config/webpack.config.dev.js",
+    "debug": "nodemon --inspect=9231 ./dist/main.bundle.js",
+    "clean": "rimraf dist",
+    "dev": "npm-run-all -p watch debug"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "bcrypt": "^5.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.4",
+    "koa-body": "^4.2.0",
+    "koa-combine-routers": "^4.0.2",
+    "koa-compose": "^4.1.0",
+    "koa-json": "^2.0.2",
+    "koa-jwt": "^4.0.3",
+    "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.1.4",
+    "nodemailer": "^6.7.2",
+    "redis": "^4.0.1",
+    "svg-captcha": "^1.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/node": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "koa-compress": "^5.1.0",
+    "nodemon": "^2.0.15",
+    "npm-run-all": "^4.1.5",
+    "path-browserify": "^1.0.1",
+    "terser-webpack-plugin": "^5.2.5",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

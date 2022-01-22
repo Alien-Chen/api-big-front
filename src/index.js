@@ -1,0 +1,39 @@
+import path from 'path'
+import Koa from 'koa'
+import koaBody from 'koa-body'
+import koaJson from 'koa-json'
+import koaStatic from 'koa-static'
+import routers from './routers/router'
+import compose from 'koa-compose'
+import compress from 'koa-compress'
+import cors from '@koa/cors'
+import JWT from 'koa-jwt'
+import config from './config/index'
+import ErrorHandle from './utils/ErrorHandle'
+const app = new Koa()
+
+// jwt
+const jwt = JWT({ secret: config.JWT_SECRET }).unless({ path: [/^\/public/, /^\/login/] })
+
+const isDevMode = process.env.NODE_ENV === 'dev' ? true : false
+
+const middleware = compose([
+  koaBody(),
+  koaJson(),
+  cors(),
+  koaStatic(path.join(__dirname, '../public')),
+  ErrorHandle,
+  jwt
+])
+app.use(middleware)
+if (!isDevMode) {
+  app.use(compress())
+}
+
+let port = !isDevMode ? 12005 : 3000
+
+app.use(routers())
+
+app.listen(port, () => {
+  console.log(`the server is running: ${port}`)
+})
