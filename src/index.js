@@ -2,7 +2,7 @@ import path from 'path'
 import Koa from 'koa'
 import koaBody from 'koa-body'
 import koaJson from 'koa-json'
-import koaStatic from 'koa-static'
+import statics from 'koa-static'
 import routers from './routers/router'
 import compose from 'koa-compose'
 import compress from 'koa-compress'
@@ -15,22 +15,32 @@ const app = new Koa()
 // jwt
 const jwt = JWT({ secret: config.JWT_SECRET }).unless({ path: [/^\/public/, /^\/login/] })
 
-const isDevMode = process.env.NODE_ENV === 'dev' ? true : false
-
+const isDevMode = process.env.NODE_ENV !== 'production'
 const middleware = compose([
-  koaBody(),
+  koaBody({
+    multipart: true,
+    formidable: {
+      keepExtensions: true,
+      maxFieldsSize: 5 * 1024 * 1024
+    },
+    onError: err => {
+      console.log('koabody TCL: err', err)
+    }
+  }),
   koaJson(),
   cors(),
-  koaStatic(path.join(__dirname, '../public')),
+  statics(path.join(__dirname, '../public')),
   ErrorHandle,
   jwt
 ])
+console.log('index', path.join(__dirname, '../public'))
 app.use(middleware)
 if (!isDevMode) {
   app.use(compress())
 }
 
 let port = !isDevMode ? 12005 : 3000
+// let port = 3000
 
 app.use(routers())
 

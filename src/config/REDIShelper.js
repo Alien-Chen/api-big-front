@@ -12,7 +12,7 @@ const init = async () => {
 
 init()
 
-const add = async (key, value, time) => {
+export const add = async (key, value, time) => {
   if (typeof value == undefined || value === '') {
     return
   }
@@ -35,16 +35,16 @@ const add = async (key, value, time) => {
   }
 }
 
-const getValue = async (key) => {
-  return await client.get(key)
+export const getValue = async (key) => {
+  try {
+    return await client.get(key)
+  } catch (e) {
+    console.log(e)
+  }
+  
 }
 
-const getHashValue = async (key) => {
+export const getHashValue = async (key) => {
   return await client.hGetAll(key)
 }
 
-export {
-  add,
-  getValue,
-  getHashValue
-}

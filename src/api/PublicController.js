@@ -5,7 +5,6 @@ class PublicController {
   constructor() {}
   async getCaptcha (ctx) {
     const uuid = ctx.query.uuid
-    
     const captcha = svgCaptcha.create({
       size: 4,
       ignoreChars: '0o1i',

@@ -4,6 +4,7 @@ const webpackNodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
 
 const webpackBaseConfig = {
+  target: 'node',
   entry: {
     main: path.join(__dirname, '../src/index.js')
   },
@@ -32,11 +33,15 @@ const webpackBaseConfig = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    // new webpack.DefinePlugin({
-    //   'process.env': {
-    //     'NODE_ENV': (process.env === 'production' || process.env === 'prod') ? "'production'" : "'development'"
-    //   }
-    // })
+     new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV:
+          process.env.NODE_ENV === 'production' ||
+            process.env.NODE_ENV === 'prod'
+            ? "'production'"
+            : "'development'",
+      },
+    })
   ],
   externals: [ webpackNodeExternals() ],
   node: {
