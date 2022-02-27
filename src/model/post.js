@@ -1,27 +1,29 @@
 import mongoose from '../config/DBhelper'
 import dayjs from 'dayjs'
 
-var Schema = mongoose.Schema({
+const Schema = mongoose.Schema({
   uid: { type: String, ref: 'users' },
   created: { type: Date },
   title: { type: String },
   content: { type: String },
   catalog: { type: String },
-  fav: { type: String },
-  isEnd: { type: String },
-  reads: { type: Number },
-  answer: { type: Number },
-  status: { type: String },
-  isTop: { type: String },
-  sort: { type: String },
-  tags: { type: Array },
+  isEnd: { type: String, default: '0' },
+  reads: { type: Number, default: 0 },
+  answer: { type: Number, default: 0 },
+  status: { type: String, default: '0' },
+  isTop: { type: String, default: '0' },
+  sort: { type: String, default: 100 },
+  fav: { type: Number, default: 0 },
   tags: {
     type: Array,
-    default: [{
-      name: '',
-      class: ''
-    }]
+    default: []
   }
+})
+
+Schema.virtual('user', {
+  ref: 'users',
+  localField: 'uid',
+  foreignField: '_id'
 })
 
 Schema.pre('save', function (next) {
@@ -31,7 +33,6 @@ Schema.pre('save', function (next) {
 
 Schema.statics = {
   getPostList: function (options, page, limit, sort) {
-    console.log(limit*page)
     return this.find(options)
      .sort({ [sort]: -1 })
      .skip(page * limit)
@@ -50,6 +51,12 @@ Schema.statics = {
     })
     .sort({ answer: -1 })
     .limit(5)
+  },
+  findByTid: function (id) {
+    return this.findOne({ _id: id }).populate({
+      path: 'uid',
+      select: 'nickname pic isVip _id'
+    })
   }
 }
 

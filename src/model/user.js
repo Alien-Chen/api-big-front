@@ -1,5 +1,6 @@
 import mongoose from '../config/DBhelper'
 import dayjs from 'dayjs'
+import config from '@/config/index'
 var Schema = mongoose.Schema({ 
   username: { type: String, index: { unique: true }, sparse: true },
   password: { type: String },
@@ -9,7 +10,7 @@ var Schema = mongoose.Schema({
   favs: { type: Number, default: 100 },
   gender: { type: String, default: '' },
   roles: { type: Array, default: ['user'] },
-  pic: { type: String, default: '/img/header.jpeg' },
+  pic: { type: String, default: `${config.apiBaseUrl}/img/header.jpeg` },
   mobile: { type: String, match: /^1[3-9](\d{9})$/, default: '' },
   status: { type: String, default: '0' },
   regmark: { type: String, default: '' },

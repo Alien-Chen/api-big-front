@@ -84,7 +84,7 @@ class LoginController {
         // 密码验证通过，开始生产token
         const token = jwt.sign({
           _id: user._id,
-          exp: Math.floor(Date.now() / 1000) + (60 * 60)
+          exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24)
         }, config.JWT_SECRET)
         const userObj = user.toJSON()
         const arr = ['password', 'username', 'roles']

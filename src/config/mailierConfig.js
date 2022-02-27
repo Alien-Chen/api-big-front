@@ -26,7 +26,6 @@ async function send(data) {
   const baseUrl = config.frontBaseUrl
   const route = data.type === 'email' ? '/confirm' : '/reset'
   const url = `${baseUrl}/#${route}${data.data ? '?' +qs.stringify(data.data) : ''}`
-  console.log(baseUrl)
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"邮箱验证" <lm4czq@qq.com>', // sender address

@@ -68,7 +68,6 @@ class UserController {
             favs: user.favs + fav,
             count: user.count + 1
          }
-         console.log(user, result)
        } else {
          // 用户中断了一次签到
          // 第n+1天签到的时候，需要与第n的天created比较，如果不相等，说明中断了签到。

@@ -33,7 +33,6 @@ const middleware = compose([
   ErrorHandle,
   jwt
 ])
-console.log('index', path.join(__dirname, '../public'))
 app.use(middleware)
 if (!isDevMode) {
   app.use(compress())
